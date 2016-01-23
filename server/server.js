@@ -52,7 +52,7 @@ server.post('/compute', function (req, res, next) {
     // We don't want to drop raw data, so we'll do some post-processing here
     scores.forEach(function (city) {
       city.cityName = city.name
-      city.disposableIncome = city['disposable_income']
+      city.disposableIncome = city['average_disposable']
     })
 
     res.send(scores)
