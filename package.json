@@ -21,6 +21,7 @@
     "babel": "^5.6.14",
     "babel-core": "^5.6.18",
     "babel-loader": "^5.3.1",
+    "restify": "^4.0.3",
     "standard": "^5.4.1",
     "standard-loader": "^2.0.0",
     "webpack": "^1.12.11",
