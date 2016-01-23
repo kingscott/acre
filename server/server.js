@@ -1,5 +1,6 @@
 var restify = require('restify')
 var Ranker = require('./ranker')
+var async = require ('async')
 
 var server = restify.createServer({
   name: 'myapp',
@@ -10,25 +11,55 @@ server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser())
 server.use(restify.bodyParser())
 
-server.get('/compute', function (req, res, next) {
-  var rankMachine = new Ranker()
 
-  res.send(req.params)
-  return next()
+server.post('/compute', function (req, res, next) {
+  var ranker = new Ranker()
+  // Extract the housing options
+  var housingOptions = req.params.housing
+  var jobTitle = req.params.jobTitle
+  var density = req.params.density
+  var language = req.params.language
+  var ranks = []
+
+  var evils = [
+    function (done) {
+      ranker.rankByHousingWants(housingOptions, jobTitle, function (ranked) {
+        ranks.push(ranked)
+        done(false)
+      })
+    },
+    function (done) {
+      console.log('?')
+      ranker.rankByLanguage(language, function (ranked) {
+        console.log('desu')
+        console.log(ranked)
+        ranks.push(ranked)
+        done(false)
+      })
+    }, function (done) {
+      ranker.rankByDensity(density, function (ranked) {
+        ranks.push(ranked)
+        done(false)
+      })
+    }
+  ]
+
+  // async
+  async.series(evils, function () {
+    var scores = ranker.computeScore(ranks)
+    console.log(scores)
+
+    // We don't want to drop raw data, so we'll do some post-processing here
+    scores.forEach(function (city) {
+      city.cityName = city.name
+      city.disposableIncome = city['disposable_income']
+    })
+
+    res.send(scores)
+  })
 })
 
 server.listen(8080, function () {
   console.log('%s listening at %s', server.name, server.url)
   console.log('began listening for interested parties regarding requests for information...')
-})
-
-var ranker = new Ranker()
-var options = {
-  spendAll: true,
-  bedroomCount: 3,
-  downtown: false
-}
-
-ranker.rankByHousingWants(options, 'Software Developer', function (ranked) {
-  console.log(ranked)
 })

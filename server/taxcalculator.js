@@ -9,8 +9,7 @@ TaxCalculator.prototype.getGrossSalary = function (salary, country) {
 
   if (country === 'US') {
     return salary * (1 - US_AVG_RATE)
-  } else {
-    console.log('?')
+  } else {    
     return salary * (1 - CANADA_AVG_TAX_RATE)
   }
 }

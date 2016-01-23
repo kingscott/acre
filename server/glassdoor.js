@@ -37,9 +37,9 @@ Glassdoor.prototype.getSalaryForJobTitle = function (countryCode, city, jobTitle
         salary = 0
       }
 
-      console.log('Got salary back ' + salary)
-      console.log(body)
-      console.log(BUILT_URL)
+      // console.log('Got salary back ' + salary)
+      // console.log(body)
+      // console.log(BUILT_URL)
       callback(salary)
     }
   })

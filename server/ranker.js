@@ -56,8 +56,8 @@ Ranker.prototype.rankByHousingWants = function (housingOptions, jobTitle, callba
     }
 
     // Find what we want to do
-    var spendEverything = housingOptions.spendAll
-    var bedroomCount = housingOptions.bedroomCount
+    var spendEverything = housingOptions.lifestyle
+    var bedroomCount = housingOptions.bedrooms
     var downtown = housingOptions.downtown
 
     // Build the composite key we need to get the value from the DB
@@ -98,7 +98,7 @@ Ranker.prototype._populateSalaries = function (cities, jobTitle, doneCallback) {
 }
 
 Ranker.prototype._filterSalaries = function (cities, compositeHouseKey, spendEverything, callback) {
-  var BUDGET_CUTOFF = 0.50
+  var BUDGET_CUTOFF = 0.33
 
   // Remove all the cities you have no hope of living in
   cities = _.filter(cities, function (city) {
@@ -110,9 +110,12 @@ Ranker.prototype._filterSalaries = function (cities, compositeHouseKey, spendEve
   // Sort the data and return it based on the spendEverything flag
   cities.sort(function (cityA, cityB) {
     if (!spendEverything) {
-      return cityA[compositeHouseKey] - cityB[compositeHouseKey]
+      var rent = (cityA[compositeHouseKey] - cityB[compositeHouseKey])
+      var dispose = (cityA['average_disposable'] - cityB['average_disposable'])
+      return (rent - dispose)
     } else {
-      return cityB[compositeHouseKey] - cityA[compositeHouseKey]
+      var rent = (cityB[compositeHouseKey] - cityA[compositeHouseKey])
+      var dispose = (cityB['average_disposable'] - cityA['average_disposable'])
     }
   })
 
@@ -145,19 +148,22 @@ Ranker.prototype.computeScore = function (rankedArrays) {
   var weightCutOff = 0.10
   var slotBonus = 5
   var scoreHash = {}
+  var findMe = rankedArrays[1] // yolo?
 
   rankedArrays.forEach(function (subRankArray) {
     // For each item, simply sum up their total in some hash
     var index = 0
+
     subRankArray.forEach(function (item) {
       var score = (Math.min(3, index) * slotBonus) * currentWeight
-      console.log(item._id)
+      // console.log(item._id)
 
       // Setup the hash counter if not available
       if (!scoreHash[item._id]) {
         scoreHash[item._id] = 0
       }
 
+      // console.log(item._id)
       scoreHash[item._id] += score
       index = index + 1
     })
@@ -167,8 +173,28 @@ Ranker.prototype.computeScore = function (rankedArrays) {
     }
   })
 
-  console.log(scoreHash)
-  return scoreHash
+  var keysSorted = Object.keys(scoreHash).sort(function (a, b) {
+    return scoreHash[a] - scoreHash[b]
+  })
+
+
+  // Take 5
+  var final = []
+  for (var i = 0; i < 7; i++) {
+    var itemToFind = keysSorted.shift()
+    // console.log(findMe)
+    final.push(_.find(findMe, function (x) {
+      // console.log(x)
+      // console.log(itemToFind)
+      return x._id.toString() === itemToFind
+    }))
+  }
+
+  console.log(final.length)
+  final.forEach(function (city) {
+    console.log(city.name)
+  })
+  return final
 }
 
 module.exports = Ranker
