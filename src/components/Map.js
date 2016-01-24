@@ -100,7 +100,7 @@ const Map = React.createClass({
     return (
       <div>
         <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
-        <center tabindex='0' style={
+        <center style={
     {position: 'absolute',
     left: 0,
     'background-color': '#FFF',
@@ -108,7 +108,7 @@ const Map = React.createClass({
     height: '400px',
     'overflow-y': 'auto',
     'border': '1px solid black',
-    'padding-bottom': '25px',
+    'paddingBottom': '25px',
     // 'opacity': 0.2,
     top: '90px'}}>
           <table>
