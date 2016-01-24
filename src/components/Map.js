@@ -87,11 +87,10 @@ const Map = React.createClass({
       .send(data)
       .end((err, data) => {
         if (err == null) {
-          console.log('shits broken')
-        }
-        data.body.map((e, i) => {
+          data.body.map((e, i) => {
 
-        })
+          })
+        }
       })
   },
 
