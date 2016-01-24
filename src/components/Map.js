@@ -99,7 +99,7 @@ const Map = React.createClass({
     const zoom = 1
     return (
       <div>
-        <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
+        <header style={{marginTop: '-20px', color: 'green', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
         <center style={{position: 'absolute',
     left: 0,
     'background-color': '#FFF',
