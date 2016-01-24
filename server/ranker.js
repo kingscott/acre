@@ -156,6 +156,12 @@ Ranker.prototype.computeScore = function (rankedArrays) {
 
     subRankArray.forEach(function (item) {
       var score = (Math.min(3, index) * slotBonus) * currentWeight
+
+      console.log(rankedArrays[1][0].language === 'FR')
+      if (rankedArrays[1][0].language === 'FR' && item.language === 'FR') {
+        score = 0
+      }
+
       // console.log(item._id)
 
       // Setup the hash counter if not available
