@@ -27,10 +27,6 @@ const greatPlaceStyle = {
   textAlign: 'center'
 }
 
-const textUnderline = {
-  borderColor: Colors.deepOrange500
-}
-
 const Map = React.createClass({
   getInitialState () {
     return {
@@ -71,12 +67,11 @@ const Map = React.createClass({
   },
 
   _onChildClick (key, childProps) {
-
     // Do something with the dom here
     // Figure out what to do with the different elements
     var dataPoint = this.state.myCopy[key]
 
-    document.getElementById('banner-complete').style.background = 'url(' + dataPoint.image + ')';
+    document.getElementById('banner-complete').style.background = 'url(' + dataPoint.image + ')'
     document.getElementById('my-description').innerHTML = dataPoint.description
     document.getElementById('my-title').innerHTML = dataPoint.name
 
@@ -85,13 +80,11 @@ const Map = React.createClass({
     document.getElementById('mcd').innerHTML = dataPoint.eat_out_price
     document.getElementById('pop').innerHTML = dataPoint.density + ' /km squared '
 
-
     // Basically, start pulling shit out and going to town
-    var floaterCard = document.getElementById('floater-card');
+    var floaterCard = document.getElementById('floater-card')
 
-
-    document.getElementById('overlay').style.display = 'block';
-    floaterCard.style.display = 'block';
+    document.getElementById('overlay').style.display = 'block'
+    floaterCard.style.display = 'block'
   },
 
   onSearch () {
@@ -142,7 +135,7 @@ const Map = React.createClass({
           left: 0,
           backgroundColor: '#FFF',
           zIndex: '1',
-          height: '400px',
+          height: '370px',
           overflowY: 'auto',
           border: '1px solid black',
           paddingBottom: '25px',
@@ -154,7 +147,7 @@ const Map = React.createClass({
                 Job Title
               </td>
               <td>
-                <TextField hintText='ex. Software Developer' value={this.state.job} underlineFocusStyle={textUnderline} onChange={this.handleJob}/><br />
+                <TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.handleJob}/><br />
               </td>
             </tr>
             <tr>
@@ -173,7 +166,7 @@ const Map = React.createClass({
                 Population Density
               </td>
               <td>
-                <Slider style={{marginBottom: '0px', rippleColor: Colors.deepOrange500}} min={500} max={3000} defaultValue={700} value={this.state.value} step={0.1} onChange={this.handleSlider} />
+                <Slider style={{marginBottom: '0px'}} min={500} max={3000} defaultValue={700} value={this.state.value} step={0.1} onChange={this.handleSlider} />
               </td>
             </tr>
             <tr>
