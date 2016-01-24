@@ -65,10 +65,6 @@ const Map = React.createClass({
     this.setState({downtown})
   },
 
-  componentDidMount() {
-    // google.maps.event.addDomListener('dragstart', fu)
-  },
-
   onSearch () {
     console.log(this.state)
     let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'Hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
@@ -90,7 +86,11 @@ const Map = React.createClass({
       .post('http://localhost:8080/compute')
       .send(data)
       .end((err, data) => {
-        console.log(err, data)
+        if (err == null) {
+          data.body.map((e, i) => {
+
+          })
+        }
       })
   },
 
@@ -100,17 +100,16 @@ const Map = React.createClass({
     return (
       <div>
         <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
-        <center style={
-    {position: 'absolute',
+        <center style={{position: 'absolute',
     left: 0,
     'background-color': '#FFF',
     zIndex: '1',
-    height: '400px',
+    height: '340px',
     'overflow-y': 'auto',
     'border': '1px solid black',
     'paddingBottom': '25px',
     // 'opacity': 0.2,
-    top: '90px'}}>
+    top: '91px'}}>
           <table>
             <tr>
               <td>
