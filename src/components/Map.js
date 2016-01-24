@@ -95,17 +95,18 @@ const Map = React.createClass({
     const zoom = 1
     return (
       <div>
-        <header style={{marginTop: '210px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
-        <center style={{position: 'absolute',
+        <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
+        <center style={
+    {position: 'absolute',
     left: 0,
     'background-color': '#FFF',
     zIndex: '1',
-    height: '340px',
+    height: '400px',
     'overflow-y': 'auto',
     'border': '1px solid black',
     'padding-bottom': '25px',
     // 'opacity': 0.2,
-    top: '311px'}}>
+    top: '90px'}}>
           <table>
             <tr>
               <td>
