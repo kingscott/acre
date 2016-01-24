@@ -5,6 +5,7 @@ import SelectField from 'material-ui/lib/select-field'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import Slider from 'material-ui/lib/slider'
 import RaisedButton from 'material-ui/lib/raised-button'
+import Colors from 'material-ui/lib/styles/colors'
 import request from 'superagent'
 
 const greatPlaceStyle = {
@@ -24,7 +25,10 @@ const greatPlaceStyle = {
   fontWeight: 'bold',
   margin: 4,
   textAlign: 'center'
+}
 
+const textUnderline = {
+  borderColor: Colors.deepOrange500
 }
 
 const Map = React.createClass({
@@ -67,11 +71,11 @@ const Map = React.createClass({
 
   onSearch () {
     console.log(this.state)
-    let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'Hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
-    this.state.newData = stuff.map((e, i) => {
-      return <div style={greatPlaceStyle} key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
-    })
-    this.setState({la: parseFloat(stuff[0].coords.la), lo: parseFloat(stuff[0].coords.lo)})
+    // let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'Hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
+    // this.state.newData = stuff.map((e, i) => {
+    //   return <div style={greatPlaceStyle} key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
+    // })
+    // this.setState({la: parseFloat(stuff[0].coords.la), lo: parseFloat(stuff[0].coords.lo)})
     let data = {
       jobTitle: this.state.job,
       language: this.state.language === 1 ? 'EN' : 'FR',
@@ -81,16 +85,23 @@ const Map = React.createClass({
         downtown: this.state.downtown === 2
       }
     }
-    // console.log(data)
+
     request
       .post('http://localhost:8080/compute')
       .send(data)
       .end((err, data) => {
-        if (err == null) {
-          data.body.map((e, i) => {
-
-          })
+        if (err != null) {
+          console.log('handled')
         }
+        // console.log(data.body)
+
+        this.setState({la: data.body[0].coords.la, lo: data.body[0].coords.lo})
+        this.state.newData = data.body.map((e, i) => {
+          return <div style={greatPlaceStyle} key={i} lat={e.coords.la} lng={e.coords.lo}>{e.cityName}</div>
+        })
+        let copy = Object.assign({}, data.body)
+        console.log(copy)
+        this.forceUpdate()
       })
   },
 
@@ -99,24 +110,25 @@ const Map = React.createClass({
     const zoom = 1
     return (
       <div>
-        <header style={{marginTop: '-20px', color: 'green', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
-        <center style={{position: 'absolute',
-    left: 0,
-    'background-color': '#FFF',
-    zIndex: '1',
-    height: '400px',
-    'overflow-y': 'auto',
-    'border': '1px solid black',
-    'paddingBottom': '25px',
-    // 'opacity': 0.2,
-    top: '89px'}}>
+        <header style={{marginTop: '-20px', color: Colors.green800, borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
+        <center style={{
+          position: 'absolute',
+          left: 0,
+          backgroundColor: '#FFF',
+          zIndex: '1',
+          height: '400px',
+          overflowY: 'auto',
+          border: '1px solid black',
+          paddingBottom: '25px',
+          top: '89px'
+        }}>
           <table>
             <tr>
               <td>
                 Job Title
               </td>
               <td>
-                <TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.handleJob}/><br />
+                <TextField hintText='ex. Software Developer' value={this.state.job} underlineFocusStyle={textUnderline} onChange={this.handleJob}/><br />
               </td>
             </tr>
             <tr>
@@ -135,7 +147,7 @@ const Map = React.createClass({
                 Population Density
               </td>
               <td>
-                <Slider min={500} max={3000} defaultValue={700} value={this.state.value} step={0.1} onChange={this.handleSlider} />
+                <Slider style={{marginBottom: '0px', rippleColor: Colors.deepOrange500}} min={500} max={3000} defaultValue={700} value={this.state.value} step={0.1} onChange={this.handleSlider} />
               </td>
             </tr>
             <tr>
