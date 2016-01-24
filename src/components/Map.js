@@ -203,14 +203,14 @@ const Map = React.createClass({
                 Downtown
               </td>
               <td>
-                <SelectField value={this.state.downtown} onChange={this.handleDowntown}>
+                <SelectField value={this.state.downtown} style={{underlineStyle: Colors.deepOrange500}} onChange={this.handleDowntown}>
                   <MenuItem value={1} primaryText='No' />
                   <MenuItem value={2} primaryText='Yes' />
                 </SelectField>
               </td>
             </tr>
           </table><br />
-          <RaisedButton label='Search' primary={true} onClick={this.onSearch}/>
+          <RaisedButton label='Search' primary={true} backgroundColor={Colors.blueA700} onClick={this.onSearch}/>
         </center><br />
         <div style={{width: '100%', height: '1000px'}}>
           <GoogleMap lat={this.state.la} lng={this.state.lo} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
