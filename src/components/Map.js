@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/lib/menus/menu-item'
 import Slider from 'material-ui/lib/slider'
 import Toggle from 'material-ui/lib/toggle'
 import RaisedButton from 'material-ui/lib/raised-button'
-// import {superagent as request} from 'superagent'
+import request from 'superagent'
 
 const greatPlaceStyle = {
   // initially any map object has left top corner at lat lng coordinates
@@ -35,17 +35,13 @@ const Map = React.createClass({
       job: '',
       language: 1,
       rooms: 1,
-      popDensity: 0.3,
-      newData: []
+      lifestyle: 1,
+      downtown: 1
     }
   },
 
-  getJob (e) {
+  handleJob (e) {
     this.setState({job: e.target.value})
-  },
-
-  getPopDensity (value) {
-    console.log(value)
   },
 
   // language handler
@@ -57,17 +53,41 @@ const Map = React.createClass({
     this.setState({rooms})
   },
 
-  handleSlider (e) {
-    console.log(e)
+  handleSlider (e, value) {
+    this.setState({value})
+  },
+
+  handleLifestyle (e, index, lifestyle) {
+    this.setState({lifestyle})
+  },
+
+  handleDowntown (e, index, downtown) {
+    this.setState({downtown})
   },
 
   onSearch () {
-    console.log(this.state)
+    console.log(this.state.job)
     let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
     this.state.newData = stuff.map((e, i) => {
       return <div style={greatPlaceStyle} key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
     })
     this.setState({la: parseFloat(stuff[0].coords.la), lo: parseFloat(stuff[0].coords.lo)})
+    let data = {
+      jobTitle: this.state.job,
+      language: this.state.language === 1 ? 'EN' : 'FR',
+      housing: {
+        lifestyle: this.state.lifestyle === 2,
+        bedrooms: this.state.rooms === 2 ? 3 : 1,
+        downtown: this.state.downtown === 2
+      }
+    }
+    // console.log(data)
+    request
+      .post('http://localhost:8080/compute')
+      .send(data)
+      .end((err, data) => {
+        console.log(err, data)
+      })
   },
 
   render () {
@@ -83,7 +103,7 @@ const Map = React.createClass({
                 Job Title
               </td>
               <td>
-                <TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.getJob}/><br />
+                <TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.handleJob}/><br />
               </td>
             </tr>
             <tr>
@@ -102,7 +122,7 @@ const Map = React.createClass({
                 Population Density
               </td>
               <td>
-                <Slider min={500} max={3000} value={this.state.popDensity} step={0.1} onChange={this.handleSlider} />
+                <Slider min={500} max={3000} defaultValue={700} value={this.state.value} step={0.1} onChange={this.handleSlider} />
               </td>
             </tr>
             <tr>
@@ -121,7 +141,21 @@ const Map = React.createClass({
                 Lifestyle
               </td>
               <td>
-                <Toggle name='Lifestyle' value='lofty' />
+                <SelectField value={this.state.lifestyle} onChange={this.handleLifestyle}>
+                  <MenuItem value={1} primaryText='Conservative' />
+                  <MenuItem value={2} primaryText='Lofty' />
+                </SelectField>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Downtown
+              </td>
+              <td>
+                <SelectField value={this.state.downtown} onChange={this.handleDowntown}>
+                  <MenuItem value={1} primaryText='No' />
+                  <MenuItem value={2} primaryText='Yes' />
+                </SelectField>
               </td>
             </tr>
           </table><br />
