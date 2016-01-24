@@ -109,7 +109,7 @@ const Map = React.createClass({
     'border': '1px solid black',
     'paddingBottom': '25px',
     // 'opacity': 0.2,
-    top: '91px'}}>
+    top: '89px'}}>
           <table>
             <tr>
               <td>
