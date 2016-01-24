@@ -20,10 +20,132 @@
   center:focus {
     opacity: 0.2;
   }
+
+  #overlay {
+    width: 100%;
+    height: 105%;
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    margin-left: -8px;
+
+  }
+
+  #floater-card {
+    font-family: 'Roboto';
+    background-color: white;
+    top: 80px;
+    left: 370px;
+    /*border: 2px solid black;*/
+    border-radius: 8px;
+    background: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry2.png')
+  }
+
+  #floater-card .banner {
+    width: 100%;
+    height: 300px;
+    background: url('http://www.monaco-saltlakecity.com/design/images/700-230/22790821_ten_major_ski_resorts.jpg');
+    overflow: hidden;
+    background-size: cover;
+    border-bottom: 4px solid green;
+    position: relative;
+  }
+
+  .banner-emphasis {
+    background-color: black;
+    width: 100%;
+    color: white;
+    padding: 15px;
+    overflow: hidden;
+    font-size: 20px;
+  }
+
+  .banner-emphasis-description {
+    position: absolute;
+    bottom: 0;
+    font-size: 11px;
+    background-color: black;
+    width: 100%;
+    color: gray;
+    padding: 20px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.75)
+  }
+
+
+  #floater-card h1 {
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    text-decoration: underline;
+    margin-bottom: 2px;
+  }
+
+  .left {
+    float: left;
+    width: 100%;
+    padding: 15px;
+    overflow-x: hidden;
+  }
+
+  .left p {
+    width: 94%;
+    padding: 7px;
+  }
+
+  .left p:nth-child(odd) {
+    background-color: lightgray;
+  }
+
+  .right {
+    float: right;
+    text-align: left;
+    margin-right: 30px;
+  }
+
+
 </style>
 <body>
   <div id='app'></div>
 </div>
+
+  <div id="overlay" style="display: none;"></div>
+
+  <div id="floater-card" style="position: absolute; z-index: 9999; display: none;">
+    <div style="width: 700px; height: 500px">
+      <div class="banner">
+        <div class="banner-emphasis" style="position: relative; bottom: 0;">
+          Salt Lake City
+        </div>
+        <div class="banner-emphasis-description">
+            Salt Lake City, often shortened to Salt Lake or SLC, is the capital and the most populous city in the U.S. state of Utah
+            Salt Lake City, often shortened to Salt Lake or SLC, is the capital and the most populous city in the U.S. state of Utah.
+        </div>
+      </div>
+
+
+      <!-- Do stuff -->
+      <div class="left">
+        <h1> City Statement </h1>
+        <p>Average 1 Bedroom Cost: <b class="right">$1,000</b> </p>
+        <p>Average 3 Bedroom Cost: <b class="right">$2,100</b> </p>
+        <p>McDonalds for 1: <b class="right">$12.50</b> </p>
+        <p>Population Density:  <b class="right">2500/km squared</b> </p>
+      </div>
+
+    </div>
+  </div>
+
   <script src="./src/dist/app.js"></script>
+
+  <script>
+    // This is basically cheating
+    document.getElementById('overlay').addEventListener('click', function () {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('floater-card').style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
