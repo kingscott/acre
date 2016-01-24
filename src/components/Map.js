@@ -65,6 +65,13 @@ const Map = React.createClass({
     this.setState({downtown})
   },
 
+  _onChildClick (e, index, x) {
+    // Do something with the dom here
+    // Figure out what to do with the different elements
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('floater-card').style.display = 'block';
+  },
+
   onSearch () {
     console.log(this.state)
     let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'Hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
@@ -176,7 +183,7 @@ const Map = React.createClass({
         </center><br />
         <div style={{width: '100%', height: '1000px'}}>
           <GoogleMap lat={this.state.la} lng={this.state.lo} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
-          onChildMouseLeave={this._onChildMouseLeave}>
+          onChildMouseLeave={this._onChildMouseLeave} onChildClick={this._onChildClick}>
             {this.state.newData}
           </GoogleMap>
         </div>
