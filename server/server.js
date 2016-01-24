@@ -19,6 +19,10 @@ server.use(
   }
 )
 
+server.on('uncaughtException', function (req, res, route, err) {
+    console.log('uncaughtException', err.stack)
+})
+
 
 server.post('/compute', function (req, res, next) {
   var ranker = new Ranker()
