@@ -67,13 +67,31 @@ const Map = React.createClass({
 
   handleDowntown (e, index, downtown) {
     this.setState({downtown})
+    console.log(e)
   },
 
-  _onChildClick (e, index, x) {
+  _onChildClick (key, childProps) {
+
     // Do something with the dom here
     // Figure out what to do with the different elements
+    var dataPoint = this.state.myCopy[key]
+
+    document.getElementById('banner-complete').style.background = 'url(' + dataPoint.image + ')';
+    document.getElementById('my-description').innerHTML = dataPoint.description
+    document.getElementById('my-title').innerHTML = dataPoint.name
+
+    document.getElementById('1bed').innerHTML = dataPoint.apartment_1_outside + ' / ' + dataPoint.apartment_1
+    document.getElementById('3bed').innerHTML = dataPoint.apartment_3_outside + ' / ' + dataPoint.apartment_3
+    document.getElementById('mcd').innerHTML = dataPoint.eat_out_price
+    document.getElementById('pop').innerHTML = dataPoint.density + ' /km squared '
+
+
+    // Basically, start pulling shit out and going to town
+    var floaterCard = document.getElementById('floater-card');
+
+
     document.getElementById('overlay').style.display = 'block';
-    document.getElementById('floater-card').style.display = 'block';
+    floaterCard.style.display = 'block';
   },
 
   onSearch () {
@@ -108,6 +126,7 @@ const Map = React.createClass({
         })
         let copy = Object.assign({}, data.body)
         console.log(copy)
+        this.setState({myCopy: data.body})
         this.forceUpdate()
       })
   },
