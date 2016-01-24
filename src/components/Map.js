@@ -4,7 +4,6 @@ import TextField from 'material-ui/lib/text-field'
 import SelectField from 'material-ui/lib/select-field'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import Slider from 'material-ui/lib/slider'
-import Toggle from 'material-ui/lib/toggle'
 import RaisedButton from 'material-ui/lib/raised-button'
 import request from 'superagent'
 
@@ -12,19 +11,20 @@ const greatPlaceStyle = {
   // initially any map object has left top corner at lat lng coordinates
   // it's on you to set object origin to 0,0 coordinates
   position: 'absolute',
-  width: 40,
-  height: 40,
+  width: 60,
+  height: 20,
   left: -40 / 2,
   top: -40 / 2,
 
-  border: '5px solid #f44336',
-  borderRadius: 40,
+  border: '2px solid #f44336',
+  borderRadius: 30,
   backgroundColor: 'white',
-  textAlign: 'center',
   color: '#3f51b5',
-  fontSize: 16,
+  fontSize: 14,
   fontWeight: 'bold',
-  padding: 4
+  margin: 4,
+  textAlign: 'center'
+
 }
 
 const Map = React.createClass({
@@ -66,8 +66,8 @@ const Map = React.createClass({
   },
 
   onSearch () {
-    console.log(this.state.job)
-    let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
+    console.log(this.state)
+    let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'Hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
     this.state.newData = stuff.map((e, i) => {
       return <div style={greatPlaceStyle} key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
     })
@@ -95,8 +95,17 @@ const Map = React.createClass({
     const zoom = 1
     return (
       <div>
-        <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
-        <center>
+        <header style={{marginTop: '210px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
+        <center style={{position: 'absolute',
+    left: 0,
+    'background-color': '#FFF',
+    zIndex: '1',
+    height: '340px',
+    'overflow-y': 'auto',
+    'border': '1px solid black',
+    'padding-bottom': '25px',
+    // 'opacity': 0.2,
+    top: '311px'}}>
           <table>
             <tr>
               <td>
@@ -161,8 +170,9 @@ const Map = React.createClass({
           </table><br />
           <RaisedButton label='Search' primary={true} onClick={this.onSearch}/>
         </center><br />
-        <div style={{width: '100%', height: 400}}>
-          <GoogleMap lat={this.state.la} lng={this.state.lo} center={center} zoom={zoom}>
+        <div style={{width: '100%', height: '1000px'}}>
+          <GoogleMap lat={this.state.la} lng={this.state.lo} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
+          onChildMouseLeave={this._onChildMouseLeave}>
             {this.state.newData}
           </GoogleMap>
         </div>
