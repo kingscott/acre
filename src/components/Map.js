@@ -6,10 +6,26 @@ import MenuItem from 'material-ui/lib/menus/menu-item'
 import Slider from 'material-ui/lib/slider'
 import Toggle from 'material-ui/lib/toggle'
 import RaisedButton from 'material-ui/lib/raised-button'
+// import {superagent as request} from 'superagent'
 
-let places = (
-  <div lat={43.701100} lng={-79.416300}>Waterloo</div>
-)
+const greatPlaceStyle = {
+  // initially any map object has left top corner at lat lng coordinates
+  // it's on you to set object origin to 0,0 coordinates
+  position: 'absolute',
+  width: 40,
+  height: 40,
+  left: -40 / 2,
+  top: -40 / 2,
+
+  border: '5px solid #f44336',
+  borderRadius: 40,
+  backgroundColor: 'white',
+  textAlign: 'center',
+  color: '#3f51b5',
+  fontSize: 16,
+  fontWeight: 'bold',
+  padding: 4
+}
 
 const Map = React.createClass({
   getInitialState () {
@@ -18,6 +34,7 @@ const Map = React.createClass({
       lo: -79.416300,
       job: '',
       language: 1,
+      rooms: 1,
       popDensity: 0.3,
       newData: []
     }
@@ -36,11 +53,19 @@ const Map = React.createClass({
     this.setState({language})
   },
 
+  handleRooms (e, index, rooms) {
+    this.setState({rooms})
+  },
+
+  handleSlider (e) {
+    console.log(e)
+  },
+
   onSearch () {
     console.log(this.state)
-    let stuff = [{'cityName': 'waterloo', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43', 'lo': '-79'}}]
+    let stuff = [{'cityName': 'Toronto', 'grossSalary': '50000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '1', 'lo': '2'}}, {'cityName': 'hamilton', 'grossSalary': '5000', 'image': '...', 'rent': '500', 'disposableIncome': '12500', 'coords': {'la': '43.7001100', 'lo': '-79.4163000'}}]
     this.state.newData = stuff.map((e, i) => {
-      return <div key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
+      return <div style={greatPlaceStyle} key={i} lat={parseFloat(e.coords.la)} lng={parseFloat(e.coords.lo)}>{e.cityName}</div>
     })
     this.setState({la: parseFloat(stuff[0].coords.la), lo: parseFloat(stuff[0].coords.lo)})
   },
@@ -50,6 +75,7 @@ const Map = React.createClass({
     const zoom = 1
     return (
       <div>
+        <header style={{marginTop: '-20px', borderBottom: '1px solid black', fontFamily: 'Pacifico', fontSize: '35px'}}>acre.</header><br />
         <center>
           <table>
             <tr>
@@ -57,7 +83,7 @@ const Map = React.createClass({
                 Job Title
               </td>
               <td>
-                &nbsp;<TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.getJob}/><br />
+                <TextField hintText='ex. Software Developer' value={this.state.job} onChange={this.getJob}/><br />
               </td>
             </tr>
             <tr>
@@ -65,10 +91,10 @@ const Map = React.createClass({
                 Language
               </td>
               <td>
-                &nbsp;<SelectField value={this.state.language.value} onChange={this.handleChange}>
-                        <MenuItem value={1} primaryText='English' />
-                        <MenuItem value={2} primaryText='French' />
-                      </SelectField>
+                <SelectField value={this.state.language} onChange={this.handleChange}>
+                  <MenuItem value={1} primaryText='English' />
+                  <MenuItem value={2} primaryText='French' />
+                </SelectField>
               </td>
             </tr>
             <tr>
@@ -76,15 +102,18 @@ const Map = React.createClass({
                 Population Density
               </td>
               <td>
-                &nbsp;<Slider defaultValue={this.state.popDensity} value={this.state.popDensity} step={0.1}/>
+                <Slider min={500} max={3000} value={this.state.popDensity} step={0.1} onChange={this.handleSlider} />
               </td>
             </tr>
             <tr>
               <td>
-                1 or 3 rooms?
+                No. of Rooms
               </td>
               <td>
-                <Toggle name='Housing' value='3' />
+                <SelectField value={this.state.rooms} onChange={this.handleRooms}>
+                  <MenuItem value={1} primaryText='1' />
+                  <MenuItem value={2} primaryText='3' />
+                </SelectField>
               </td>
             </tr>
             <tr>
@@ -99,7 +128,7 @@ const Map = React.createClass({
           <RaisedButton label='Search' primary={true} onClick={this.onSearch}/>
         </center><br />
         <div style={{width: '100%', height: 400}}>
-          <GoogleMap id='googs' lat={this.state.la} lng={this.state.lo} center={this.state.center} zoom={zoom}>
+          <GoogleMap lat={this.state.la} lng={this.state.lo} center={center} zoom={zoom}>
             {this.state.newData}
           </GoogleMap>
         </div>
