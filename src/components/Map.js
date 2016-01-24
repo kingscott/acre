@@ -104,7 +104,7 @@ const Map = React.createClass({
     left: 0,
     'background-color': '#FFF',
     zIndex: '1',
-    height: '340px',
+    height: '400px',
     'overflow-y': 'auto',
     'border': '1px solid black',
     'paddingBottom': '25px',
