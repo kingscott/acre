@@ -11,6 +11,14 @@ server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser())
 server.use(restify.bodyParser())
 
+server.use(
+  function crossOrigin(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "X-Requested-With")
+    return next()
+  }
+)
+
 
 server.post('/compute', function (req, res, next) {
   var ranker = new Ranker()
