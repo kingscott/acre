@@ -93,8 +93,8 @@ const Search = React.createClass({
         // let newData = data.body.map((e, i) => {
         //   return <div style={greatPlaceStyle} key={i} lat={e.coords.la} lng={e.coords.lo}>{e.cityName}</div>
         // })
+        // console.log('newData', newData)
         let copy = Object.assign({}, data.body)
-        // this.setState({myCopy: data.body})
         this.props.passData(coords, copy, data.body.map((e, i) => {
           return <div style={greatPlaceStyle} key={i} lat={e.coords.la} lng={e.coords.lo}>{e.cityName}</div>
         }))

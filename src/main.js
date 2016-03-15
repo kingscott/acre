@@ -9,7 +9,8 @@ const Main = React.createClass({
     return {
       la: 43.701100,
       lo: -79.416300,
-      newData: [1]
+      newData: [],
+      myCopy: []
     }
   },
 
@@ -22,7 +23,7 @@ const Main = React.createClass({
     return (
       <div style={{fontFamily: 'Roboto'}}>
         <Search passData={this.passData} />
-        <Map la={this.state.la} lo={this.state.lo} newData={this.state.newData}/>
+        <Map la={this.state.la} lo={this.state.lo} data={this.state.newData} copy={this.state.myCopy}/>
       </div>
     )
   }

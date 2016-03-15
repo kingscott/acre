@@ -12,7 +12,7 @@ const Map = React.createClass({
   _onChildClick (key, childProps) {
     // Do something with the dom here
     // Figure out what to do with the different elements
-    var dataPoint = this.state.myCopy[key]
+    var dataPoint = this.props.copy[key]
 
     document.getElementById('banner-complete').style.background = 'url(' + dataPoint.image + ')'
     document.getElementById('my-description').innerHTML = dataPoint.description
@@ -34,11 +34,9 @@ const Map = React.createClass({
     console.log('from map', this.props.la, this.props.lo)
     const center = [this.props.la, this.props.lo]
     const zoom = 1
-    const l1 = this.props.la
-    const l2 = this.props.lo
     return (
       <div style={{width: '100%', height: '1000px'}}>
-        <GoogleMap lat={l1} lng={l2} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
+        <GoogleMap lat={this.props.la} lng={this.props.lo} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave} onChildClick={this._onChildClick}>
           {this.props.newData}
         </GoogleMap>
