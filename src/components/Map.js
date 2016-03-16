@@ -2,13 +2,6 @@ import React from 'react'
 import GoogleMap from 'google-map-react'
 
 const Map = React.createClass({
-  // getInitialState () {
-  //   return {
-  //     la: 43.701100,
-  //     lo: -79.416300
-  //   }
-  // },
-
   _onChildClick (key, childProps) {
     // Do something with the dom here
     // Figure out what to do with the different elements
@@ -31,14 +24,13 @@ const Map = React.createClass({
   },
 
   render () {
-    console.log('from map', this.props.la, this.props.lo)
     const center = [this.props.la, this.props.lo]
     const zoom = 1
     return (
       <div style={{width: '100%', height: '1000px'}}>
         <GoogleMap lat={this.props.la} lng={this.props.lo} center={center} zoom={zoom} onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave} onChildClick={this._onChildClick}>
-          {this.props.newData}
+          {this.props.data}
         </GoogleMap>
       </div>
     )
