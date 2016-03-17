@@ -4,8 +4,18 @@ import SelectField from 'material-ui/lib/select-field'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import Slider from 'material-ui/lib/slider'
 import RaisedButton from 'material-ui/lib/raised-button'
+import AutoComplete from 'material-ui/lib/auto-complete'
 import Colors from 'material-ui/lib/styles/colors'
 import request from 'superagent'
+
+const additionalData = [
+  'Arts',
+  'Climate', 'Commute Times', 'Country', 'Crime Rate',
+  'Education',
+  'Night Life',
+  'Public Transporation',
+  'Walkability'
+]
 
 const Search = React.createClass({
   getInitialState () {
@@ -145,6 +155,15 @@ const Search = React.createClass({
                   <MenuItem value={1} primaryText='No' />
                   <MenuItem value={2} primaryText='Yes' />
                 </SelectField>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Criteria
+              </td>
+              <td>
+                <AutoComplete hintText='Additional criteria' filter={AutoComplete.fuzzyFilter} dataSource={additionalData}
+                onNewRequest={(e) => { console.log('clicked', e) }} />
               </td>
             </tr>
           </table><br />
