@@ -8,6 +8,8 @@ import AutoComplete from 'material-ui/lib/auto-complete'
 import Colors from 'material-ui/lib/styles/colors'
 import request from 'superagent'
 
+let country = 1
+
 const additionalData = [
   'Arts',
   'Climate', 'Commute Times', 'Country', 'Crime Rate',
@@ -17,6 +19,16 @@ const additionalData = [
   'Walkability'
 ]
 
+const additionalComponents = {
+
+  'Crime Rate': <Slider style={{marginBottom: '0px'}} min={500} max={3000} defaultValue={700} step={0.1} />,
+  'Country': <SelectField value={1}>
+                <MenuItem value={1} primaryText='Canada' />
+                <MenuItem value={2} primaryText='US' />
+             </SelectField>,
+  'Walkability': <Slider style={{marginBottom: '0px'}} min={500} max={3000} defaultValue={700} step={0.1} />
+}
+
 const Search = React.createClass({
   getInitialState () {
     return {
@@ -24,12 +36,12 @@ const Search = React.createClass({
       language: 1,
       rooms: 1,
       lifestyle: 1,
-      downtown: 1
+      downtown: 1,
+      criteria: []
     }
   },
 
   // State handlers
-  // TODO - are you fucking kidding me? Reduce!
   handleJob (e) {
     this.setState({job: e.target.value})
   },
@@ -52,7 +64,13 @@ const Search = React.createClass({
 
   handleDowntown (e, index, downtown) {
     this.setState({downtown})
-    console.log(e)
+  },
+
+  addSomeData (e) {
+    this.setState({
+      label: e,
+      criteria: additionalComponents[e]
+    })
   },
 
   onSearch () {
@@ -159,11 +177,19 @@ const Search = React.createClass({
             </tr>
             <tr>
               <td>
+                {this.state.label}
+              </td>
+              <td>
+                {this.state.criteria}
+              </td>
+            </tr>
+            <tr>
+              <td>
                 Criteria
               </td>
               <td>
                 <AutoComplete hintText='Additional criteria' filter={AutoComplete.fuzzyFilter} dataSource={additionalData}
-                onNewRequest={(e) => { console.log('clicked', e) }} />
+                onNewRequest={(e, i) => { this.addSomeData(e, i) }} />
               </td>
             </tr>
           </table><br />
