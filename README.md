@@ -1,5 +1,7 @@
-Acre - Waterloo Hacks '16
+Acre - Waterloo Hacks '16 
 ==========================
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+
 Authors: Scott King, Vaughan Hilts
 
 An application that can help you find a place to live given some constraints about your career, where you would want to live, prospective
